@@ -9,7 +9,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/clonefunction/Linoria
 local ThemeManager = {};
 
 do
-	ThemeManager["Folder"] = "LinoriaModded/Settings";
+	ThemeManager["Folder"] = "LinoriaModded/Addons";
 	ThemeManager["Library"] = nil;
 	ThemeManager["BuiltInThemes"] = {
 		["Default"] = {1, HttpService:JSONDecode('{"FontColor":"ffffff","MainColor":"181818","AccentColor":"c8c8c8","BackgroundColor":"141414","OutlineColor":"1f1f1f"}')},
