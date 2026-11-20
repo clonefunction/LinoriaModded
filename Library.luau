@@ -62,13 +62,15 @@ local Library = {
 	["OpenedFrames"] = {},
 	["DependencyBoxes"] = {},
 	["Connections"] = {},
-	["FontColor"] = color3_fromrgb(255, 255, 255),
-	["MainColor"] = color3_fromrgb(28, 28, 28),
+
+	["MainColor"] = color3_fromrgb(24, 24, 24),
+	["AccentColor"] = color3_fromrgb(200, 200, 200),
 	["BackgroundColor"] = color3_fromrgb(20, 20, 20),
-	["AccentColor"] = color3_fromrgb(0, 85, 255),
-	["OutlineColor"] = color3_fromrgb(50, 50, 50),
+	["OutlineColor"] = color3_fromrgb(31, 31, 31),
 	["RiskColor"] = color3_fromrgb(255, 50, 50),
+	["FontColor"] = color3_fromrgb(255, 255, 255),
 	["Black"] = color3_new(0, 0, 0);
+
 	["Font"] = Enum["Font"]["Code"],
 	["Mobile"] = (InputService["TouchEnabled"] and not InputService["MouseEnabled"]),
 	["CanDrag"] = nil,
@@ -138,7 +140,6 @@ function Library:CreateConnection(Signal, Callback)
 
     return Connection;
 end;
-
 
 
 
