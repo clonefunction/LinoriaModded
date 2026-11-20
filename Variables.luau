@@ -55,4 +55,5 @@ udim2_from_offset = clonefunction(UDim2["fromOffset"]);
 instance_new = clonefunction(Instance["new"]);
 
 string_char = clonefunction(string["char"]);
+string_format = clonefunction(string["format"]);
 string_find = clonefunction(string["find"]);
