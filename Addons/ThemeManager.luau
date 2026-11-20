@@ -251,8 +251,8 @@ do
 			Paths[rawlen(Paths) + 1] = table_concat(parts, "/", 1, Idx);
 		end;
 
-		table_insert(Paths, self["Folder"] .. "/themes");
-		table_insert(Paths, self["Folder"] .. "/settings");
+		table_insert(Paths, self["Folder"] .. "/Themes");
+		table_insert(Paths, self["Folder"] .. "/Settings");
 
 		for Idx = 1, rawlen(Paths) do
 			local Str = Paths[Idx]
