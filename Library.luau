@@ -3635,21 +3635,23 @@ function Library:CreateWindow(...)
 		end;
 
 		function Tab:ShowTab()
-			for _, Tab in next, Window.Tabs do
+			for _, Tab in next, Window["Tabs"] do
 				Tab:HideTab();
 			end;
 
-			Blocker.BackgroundTransparency = 0;
-			TabButton.BackgroundColor3 = Library.MainColor;
-			Library.RegistryMap[TabButton].Properties.BackgroundColor3 = "MainColor";
-			TabFrame.Visible = true;
+			AccentBar["Visible"] = true;
+			Blocker["BackgroundTransparency"] = 0;
+			TabButton["BackgroundColor3"] = Library["MainColor"];
+			Library["RegistryMap"][TabButton]["Properties"]["BackgroundColor3"] = "MainColor";
+			TabFrame["Visible"] = true;
 		end;
 
 		function Tab:HideTab()
-			Blocker.BackgroundTransparency = 1;
-			TabButton.BackgroundColor3 = Library.BackgroundColor;
-			Library.RegistryMap[TabButton].Properties.BackgroundColor3 = "BackgroundColor";
-			TabFrame.Visible = false;
+			AccentBar["Visible"] = false;
+			Blocker["BackgroundTransparency"] = 1;
+			TabButton["BackgroundColor3"] = Library["BackgroundColor"];
+			Library["RegistryMap"][TabButton]["Properties"]["BackgroundColor3"] = "BackgroundColor";
+			TabFrame["Visible"] = false;
 		end;
 
 		function Tab:SetLayoutOrder(Position)
