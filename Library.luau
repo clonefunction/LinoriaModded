@@ -3159,6 +3159,7 @@ function Library:Notify(Text, Time)
 
 
 	local Colors = GetNotificationColors();
+	local NotificationStyle = Library["NotificationStyle"];
 	local MainColor = Colors["MainColor"];
 	local AccentColor = Colors["AccentColor"];
 	local OutlineColor = Colors["OutlineColor"];
