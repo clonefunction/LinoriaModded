@@ -3046,12 +3046,13 @@ end;
 
 -- // ( Addons )
 do
-	Library.NotificationArea = Library:CreateInstance("Frame", {
-		BackgroundTransparency = 1;
-		Position = udim2_new(0, 0, 0, 40);
-		Size = udim2_new(0, 300, 0, 200);
-		ZIndex = 100;
-		Parent = ScreenGui;
+	Library["NotificationArea"] = Library:CreateInstance("Frame", {
+		["BackgroundTransparency"] = 1,
+		["AnchorPoint"] = vector2_new(0.5, 0.5),
+		["Position"] = udim2_new(0.5, 0, 0, 0.35),
+		["Size"] = udim2_new(0, 300, 0, 200),
+		["ZIndex"] = 100,
+		["Parent"] = ScreenGui
 	});
 
 	Library:CreateInstance("UIListLayout", {
