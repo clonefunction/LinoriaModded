@@ -1,6 +1,6 @@
 Players = cloneref(game:GetService("Players"));
 Teams = cloneref(game:GetService("Teams"));
-LocalPlayer = players["LocalPlayer"];
+LocalPlayer = Players["LocalPlayer"];
 Mouse = LocalPlayer:GetMouse();
 
 Workspace = cloneref(game:GetService("Workspace"));
