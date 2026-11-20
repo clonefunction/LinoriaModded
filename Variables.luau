@@ -9,6 +9,7 @@ Camera = Workspace["CurrentCamera"];
 RunService = cloneref(game:GetService("RunService"));
 RenderStepped = RunService["RenderStepped"];
 
+HttpService = cloneref(game:GetService("HttpService"));
 InputService = cloneref(game:GetService("UserInputService"));
 TextService = cloneref(game:GetService("TextService"));
 TweenService = cloneref(game:GetService("TweenService"));
