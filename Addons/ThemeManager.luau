@@ -1,9 +1,12 @@
+if (getgenv()["ThemeManager"]) then
+	return;
+end;
+
+
+
 -- // ( Variables )
 loadstring(game:HttpGet("https://raw.githubusercontent.com/clonefunction/LinoriaModded/refs/heads/main/Variables.luau"))();
 local ThemeManager = {};
-
-
-
 
 do
 	ThemeManager["Folder"] = "LinoriaModded/Settings";
@@ -94,7 +97,7 @@ do
 		groupbox:AddLabel("Accent color"):AddColorPicker("AccentColor", { ["Title"] = "Accent color", ["Default"] = self["Library"]["AccentColor"] });
 		groupbox:AddLabel("Background color"):AddColorPicker("BackgroundColor", { ["Title"] = "Background color", ["Default"] = self["Library"]["BackgroundColor"] });
 		groupbox:AddLabel("Outline color"):AddColorPicker("OutlineColor", { ["Title"] = "Outline color", ["Default"] = self["Library"]["OutlineColor"] });
-		groupbox:AddLabel("Font color"):AddColorPicker("FontColor", { ["Title"] = ["Default"] = self["Library"]["FontColor"] });
+		groupbox:AddLabel("Font color"):AddColorPicker("FontColor", { ["Title"] = "Font color", ["Default"] = self["Library"]["FontColor"] });
 
 		local DefaultThemes = {};
 		for Name, Theme in next, self["BuiltInThemes"] do
@@ -106,7 +109,7 @@ do
 		end);
 
 		groupbox:AddDivider();
-		groupbox:AddDropdown("ThemeManager_ThemeList", { ["Text"] = "Theme list", ["Values"] = DefaultThemes, ["Default"] = 1 
+		groupbox:AddDropdown("ThemeManager_ThemeList", { ["Text"] = "Theme list", ["Values"] = DefaultThemes, ["Default"] = 1,
 			["Callback"] = function(Value)
 				self:ApplyTheme(Value);
 			end;
