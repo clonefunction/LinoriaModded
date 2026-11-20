@@ -96,8 +96,11 @@ function Library:CreateInstance(Class, Properties)
 		Instance = instance_new(Class);
 	end;
 
-	Instance["Name"] = "";
 	if (typeof(Properties) == "table") then
+		if not (Properties["Name"]) then
+			Instance["Name"] = "";
+		end;
+
 		for Property, Value in next, Properties do
 			Instance[Property] = Value;
 		end;
@@ -2974,9 +2977,9 @@ local NotifySettings = {
 
 
 local function GetNotificationColors()
-	local callback = NotificationStyle["OverrideColor"];
-	if (callback) then
-		return callback();
+	local Callback = NotificationStyle["OverrideColor"];
+	if (Callback) then
+		return Callback();
 	end;
 
 	local Key = {
