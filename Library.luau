@@ -52,6 +52,7 @@ end;
 
 
 
+local DPIScale = 1;
 local Toggles = {};
 local Options = {};
 local Library = {
@@ -943,7 +944,7 @@ do
 
 
 
-		Library:CreateConnection(SatVibMap["InputBegan"], function(Input) -- here
+		Library:CreateConnection(SatVibMap["InputBegan"], function(Input)
 			local InputType = Input["UserInputType"];
 			if (InputType == InputMouse1) or (InputType == InputTouch) then
 				while (InputService:IsMouseButtonPressed(InputMouse1 or InputTouch)) do
@@ -989,7 +990,7 @@ do
 
 
 
-		Library:CreateConnection(DisplayFrame["InputBegan"], function(Input) -- here
+		Library:CreateConnection(DisplayFrame["InputBegan"], function(Input)
 			if (Library:MouseIsOverOpenedFrame(Input)) then
                 return;
             end;
