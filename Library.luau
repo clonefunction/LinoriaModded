@@ -24,7 +24,7 @@ do
 
 
 	for Idx, Asset in next, Assets do
-		local File = "LinoriaModded/Assets" .. Idx .. ".png";
+		local File = "LinoriaModded/Assets/" .. Idx .. ".png";
 		if (isfile(File)) then
 			Icons[Idx] = getcustomasset(File);
 			continue;
