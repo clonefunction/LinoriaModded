@@ -3056,10 +3056,11 @@ do
 	});
 
 	Library:CreateInstance("UIListLayout", {
-		Padding = UDim.new(0, 4);
-		FillDirection = Enum.FillDirection.Vertical;
-		SortOrder = Enum.SortOrder.LayoutOrder;
-		Parent = Library.NotificationArea;
+		["Padding"] = udim_new(0, 4),
+		["FillDirection"] = Enum["FillDirection"]["Vertical"],
+		["HorizontalAlignment"] = Enum["HorizontalAlignment"]["Center"],
+		["SortOrder"] = Enum["SortOrder"]["LayoutOrder"],
+		["Parent"] = Library["NotificationArea"]
 	});
 
 	local WatermarkOuter = Library:CreateInstance("Frame", {
