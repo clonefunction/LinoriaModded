@@ -179,7 +179,7 @@ function Library:MakeDraggable(Instance, Cutoff)
 		end;
 	end;
 
-	Library:CreateConnection(instance["InputBegan"], OnInputBegan);
+	Library:CreateConnection(Instance["InputBegan"], OnInputBegan);
 end;
 
 
@@ -192,7 +192,8 @@ local DraggingGui = Library:CreateInstance("ScreenGui", {
 
 function Library:MakeDraggableOutline(Instance, Cutoff)
 	Instance["Active"] = true;
-	Library:CreateConnection(Instance["InputBegan"], function(Input)
+
+	local function OnInputBegan(Input)
 		local InputType = Input["UserInputType"];
 		if (InputType == InputMouse1) then
 			if (Library["CantDrag"]) then
@@ -305,7 +306,10 @@ function Library:MakeDraggableOutline(Instance, Cutoff)
 
             Library["Dragging"] = false;
 		end;
-	end);
+	end;
+
+
+	Library:CreateConnection(Instance["InputBegan"], OnInputBegan);
 end;
 
 
