@@ -3048,8 +3048,8 @@ end;
 do
 	Library["NotificationArea"] = Library:CreateInstance("Frame", {
 		["BackgroundTransparency"] = 1,
-		["AnchorPoint"] = vector2_new(0.5, 0.5),
-		["Position"] = udim2_new(0.5, 0, 0, 0.35),
+		["AnchorPoint"] = vector2_new(0.5, 0),
+		["Position"] = udim2_new(0.5, 0, 0.35, 0),
 		["Size"] = udim2_new(0, 300, 0, 200),
 		["ZIndex"] = 100,
 		["Parent"] = ScreenGui
