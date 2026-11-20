@@ -97,10 +97,6 @@ function Library:CreateInstance(Class, Properties)
 	end;
 
 	if (typeof(Properties) == "table") then
-		if not (Properties["Name"]) then
-			Instance["Name"] = "";
-		end;
-
 		for Property, Value in next, Properties do
 			Instance[Property] = Value;
 		end;
