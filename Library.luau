@@ -59,19 +59,20 @@ local Library = {
 	["Registry"] = {},
 	["RegistryMap"] = {},
 	["HudRegistry"] = {},
-	["OpenedFrames"] = {};
-	["DependencyBoxes"] = {};
+	["OpenedFrames"] = {},
+	["DependencyBoxes"] = {},
 	["Connections"] = {},
-	["FontColor"] = color3_fromrgb(255, 255, 255);
-	["MainColor"] = color3_fromrgb(28, 28, 28);
-	["BackgroundColor"] = color3_fromrgb(20, 20, 20);
-	["AccentColor"] = color3_fromrgb(0, 85, 255);
-	["OutlineColor"] = color3_fromrgb(50, 50, 50);
+	["FontColor"] = color3_fromrgb(255, 255, 255),
+	["MainColor"] = color3_fromrgb(28, 28, 28),
+	["BackgroundColor"] = color3_fromrgb(20, 20, 20),
+	["AccentColor"] = color3_fromrgb(0, 85, 255),
+	["OutlineColor"] = color3_fromrgb(50, 50, 50),
 	["RiskColor"] = color3_fromrgb(255, 50, 50),
 	["Black"] = color3_new(0, 0, 0);
 	["Font"] = Enum["Font"]["Code"],
 	["Mobile"] = (InputService["TouchEnabled"] and not InputService["MouseEnabled"]),
 	["CanDrag"] = nil,
+	["Dragging"] = nil,
 	["NotificationStyle"] = {
 		["Transparency"] = 0,
 		["OverrideColor"] = nil,
@@ -148,6 +149,164 @@ local ScreenGui = Library:CreateInstance("ScreenGui", {
 	["Parent"] = Hui
 });
 
+
+
+-- // ( Make Draggable )
+function Library:MakeDraggable(Instance, Cutoff)
+	Instance["Active"] = true;
+
+
+	local function OnInputBegan(Input)
+		local InputType = Input["UserInputType"];
+		if (InputType == InputMouse1) or (InputType == InputTouch) then
+			if (Library["CantDrag"]) then
+				return;
+			end;
+
+			local AbsolutePosition = Instance["AbsolutePosition"];
+			local Position = vector2_new(Mouse["X"] - AbsolutePosition["X"], Mouse["Y"] - AbsolutePosition["Y"]);
+			if Position["Y"] > (Cutoff or 40) then
+				return;
+			end;
+
+			while (InputService:IsMouseButtonPressed(InputMouse1 or InputTouch)) do
+				local Size = Instance["Size"];
+				local AnchorPoint = Instance["AnchorPoint"];
+				Instance["Position"] = udim2_new(0, Mouse["X"] - Position["X"] + (Size["X"]["Offset"] * AnchorPoint["X"]), 0, Mouse["Y"] - Position["Y"] + (Size["Y"]["Offset"] * AnchorPoint["Y"]));
+
+				RenderStepped:Wait();
+			end;
+		end;
+	end;
+
+	Library:CreateConnection(instance["InputBegan"], OnInputBegan);
+end;
+
+
+
+-- // ( Make Draggable Outline )
+local DraggingGui = create_instance("ScreenGui", {
+	["Name"] = "",
+	["Parent"] = Hui
+});
+
+function Library:MakeDraggableOutline(Instance, Cutoff)
+	Instance["Active"] = true;
+	Library:CreateConnection(Instance["InputBegan"], function(Input)
+		local InputType = Input["UserInputType"];
+		if (InputType == InputMouse1) then
+			if (Library["CantDrag"]) then
+				return;
+			end;
+
+			local Position = vector2_new(Mouse["X"] - Instance["AbsolutePosition"]["X"], Mouse["Y"] - Instance["AbsolutePosition"]["Y"]);
+			if Position["Y"] > (Cutoff or 40) then
+				return;
+			end;
+
+			local Frame = Library:CreateInstance("Frame", {
+				["Parent"] = DraggingGui,
+				["AnchorPoint"] = Instance["AnchorPoint"],
+				["BackgroundTransparency"] = 1,
+				["Size"] = Instance["Size"],
+				["Position"] = Instance["Position"]
+			});
+
+			local UIStroke = Library:CreateInstance("UIStroke", {
+				["Name"] = "",
+				["Parent"] = Frame,
+				["Color"] = Library["AccentColor"]
+			});
+
+			Library["Dragging"] = true;
+
+
+			while (InputService:IsMouseButtonPressed(Enum["UserInputType"]["MouseButton1"])) do
+				Frame["Position"] = udim2_new(
+					0,
+					Mouse["X"] - Position["X"] + (Instance["Size"]["X"]["Offset"] * Instance["AnchorPoint"]["X"]),
+					0,
+					Mouse["Y"] - Position["Y"] + (Instance["Size"]["Y"]["Offset"] * Instance["AnchorPoint"]["Y"])
+				);
+
+				UIStroke["Color"] = Library["AccentColor"];
+				
+				RenderStepped:Wait();
+			end;
+
+
+			Instance["Position"] = udim2_new(0, Mouse["X"] - Position["X"] + (Instance["Size"]["X"]["Offset"] * Instance["AnchorPoint"]["X"]), 0, Mouse["Y"] - Position["Y"] + (Instance["Size"]["Y"]["Offset"] * Instance["AnchorPoint"]["Y"]));
+			Frame:Destroy();
+
+			Library["Dragging"] = false;
+		elseif (InputType == InputTouch) then
+			if (Library["CantDrag"]) then
+				return;
+			end;
+
+			local Position = vector2_new(Mouse["X"] - Instance["AbsolutePosition"]["X"], Mouse["Y"] - Instance["AbsolutePosition"]["Y"]);
+			if Position["Y"] > (Cutoff or 40) then
+				return;
+			end;
+
+
+			local Frame = Library:CreateInstance("Frame", {
+				["Name"] = "",
+				["Parent"] = DraggingGui,
+				["AnchorPoint"] = Instance["AnchorPoint"],
+				["BackgroundTransparency"] = 1,
+				["Size"] = Instance["Size"],
+				["Position"] = Instance["Position"]
+			});
+
+			local UIStroke = Library:CreateInstance("UIStroke", {
+				["Name"] = "",
+				["Parent"] = Frame,
+				["Color"] = Library["AccentColor"]
+			});
+
+
+			local Dragging = true;
+            local InputConnection = nil;
+			Library["Dragging"] = true;
+
+
+			local function OnInputChanged()
+				local InputState = Input["UserInputState"];
+				if (InputState == Enum["UserInputState"]["End"]) then
+                    Dragging = nil;
+                end;
+			end;
+
+
+            InputConnection = Library:CreateConnection(Input["Changed"], OnInputChanged);
+
+            while (Dragging) do
+				Frame["Position"] = udim2_new(
+					0,
+					Mouse["X"] - Position["X"] + (Instance["Size"]["X"]["Offset"] * Instance["AnchorPoint"]["X"]),
+					0,
+					Mouse["Y"] - Position["Y"] + (Instance["Size"]["Y"]["Offset"] * Instance["AnchorPoint"]["Y"])
+				);
+
+                UIStroke["Color"] = Library["AccentColor"]
+
+                RenderStepped:Wait();
+            end;
+
+            Instance["Position"] = Frame["Position"];
+
+            if (InputConnection) then
+                InputConnection:Disconnect();
+				InputConnection = nil;
+            end;
+
+            Frame:Destroy();
+
+            Library["Dragging"] = false;
+		end;
+	end);
+end;
 
 
 -- // ( Mouse IsOver functions )
@@ -3256,7 +3415,7 @@ function Library:CreateWindow(...)
 		Parent = ScreenGui;
 	});
 
-	Library:MakeDraggable(Outer, 25);
+	Library:MakeDraggableOutline(Outer, 25);
 
 	local Inner = Library:CreateInstance("Frame", {
 		BackgroundColor3 = Library.MainColor;
@@ -3395,6 +3554,22 @@ function Library:CreateWindow(...)
 
 		Library:AddToRegistry(Blocker, {
 			BackgroundColor3 = "MainColor";
+		});
+
+
+		local AccentBar = Library:CreateInstance("Frame", {
+			["Name"] = "",
+			["BackgroundColor3"] = Library["AccentColor"],
+			["BorderSizePixel"] = 0,
+			["Size"] = udim2_new(1, 0, 0, 2),
+			["Position"] = udim2_new(0, 0, 0, 0),
+			["ZIndex"] = 4,
+			["Visible"] = false,
+			["Parent"] = TabButton
+		});
+
+		Library:AddToRegistry(AccentBar, {
+			["BackgroundColor3"] = "AccentColor"
 		});
 
 		local TabFrame = Library:CreateInstance("Frame", {
