@@ -185,7 +185,7 @@ end;
 
 
 -- // ( Make Draggable Outline )
-local DraggingGui = create_instance("ScreenGui", {
+local DraggingGui = Library:CreateInstance("ScreenGui", {
 	["Name"] = "",
 	["Parent"] = Hui
 });
