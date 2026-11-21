@@ -3412,6 +3412,12 @@ end;
 
 Library:CreateEvent("VisibilityChanged");
 
+local _callbacks = {};
+function Library:BindToInput(key, callback) 
+	_callbacks[key] = _callbacks[key] or {};
+	table_insert(_callbacks[key], callback);
+end;
+
 
 
 
