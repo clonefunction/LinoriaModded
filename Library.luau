@@ -613,7 +613,7 @@ end;
 
 
 Library:CreateConnection(ScreenGui["DescendantRemoving"], function(Instance)
-	if (LLibrary["UIVisible"] and ibrary["RegistryMap"][Instance]) then
+	if (Library["UIVisible"] and ibrary["RegistryMap"][Instance]) then
 		Library:RemoveFromRegistry(Instance);
 	end;
 end);
