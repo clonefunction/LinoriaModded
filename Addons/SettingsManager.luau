@@ -5,7 +5,10 @@ end;
 
 -- // ( Variables )
 loadstring(game:HttpGet("https://raw.githubusercontent.com/clonefunction/LinoriaModded/refs/heads/main/Variables.luau"))();
+local ThemeManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/clonefunction/LinoriaModded/refs/heads/main/Addons/ThemeManager.luau"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/clonefunction/LinoriaModded/refs/heads/main/Addons/SaveManager.luau"))()
 local SettingsManager = {};
+
 
 
 do
@@ -195,13 +198,6 @@ do
 		local Menu = MenuTabbox:AddTab("Menu");
 		local Notifications = MenuTabbox:AddTab("Notifications");
 		local Background = Tab:AddRightGroupbox("Background");
-		local ThemeManager = getgenv()["ThemeManager"];
-		local SaveManager = getgenv()["SaveManager"];
-		if not (SaveManager or ThemeManager) then
-			warn("Must have SaveManager and ThemeManager.");
-			return;
-		end;
-
 		if (self["Folder"] == nil) then
 			warn("SettingsManager.Folder needs to be set first.");
 			return;
