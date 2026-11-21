@@ -1,22 +1,22 @@
-if (getgenv()["MenuManager"]) then
+if (getgenv()["SettingsManager"]) then
 	return;
 end;
 
 
 -- // ( Variables )
 loadstring(game:HttpGet("https://raw.githubusercontent.com/clonefunction/LinoriaModded/refs/heads/main/Variables.luau"))();
-local MenuManager = {};
+local SettingsManager = {};
 
 
 do
-	MenuManager["Library"] = nil;
-	MenuManager["Folder"] = nil;
-	local BackgroundFrame = nil;
-	local BackgroundBlur = nil;
+	SettingsManager["Library"] = nil;
+	SettingsManager["Folder"] = nil;
+	local NotificationCount = 1;
 
 
 
-	function MenuManager:CreateMenuManager(Groupbox)
+	-- // ( Apply Menu )
+	function SettingsManager:ApplyMenu(Groupbox)
 		Groupbox:AddLabel("Menu keybind"):AddKeyPicker("menu_keybind", { ["Default"] = "RightShift", ["Text"] = "Menu keybind", ["NoUI"] = true });
         Groupbox:AddToggle("keybind_list_enabled", { ["Text"] = "Keybind list enabled", ["Default"] = true,
             ["Callback"] = function(Value)
@@ -40,7 +40,8 @@ do
 
 
 
-	function MenuManager:CreateNotificationManager(Groupbox)
+	-- // ( Apply Notification )
+	function SettingsManager:ApplyNotification(Groupbox)
 		Groupbox:AddToggle("notification_forcecolor_enabled", { ["Text"] = "Force color", ["Default"] = false });
 		Groupbox:AddLabel("Colors"):AddColorPicker("notification_main_color", { ["Title"] = "Notification main color", ["Default"] = Library["MainColor"]
 		}):AddColorPicker("notification_accent_color", { ["Title"] = "Notification accent color", ["Default"] = Library["AccentColor"]
@@ -100,9 +101,11 @@ do
 
 
 
-	function MenuManager:CreateBackgroundManager(Groupbox)
+	-- // ( Apply Background )
+	function SettingsManager:ApplyBackground(Groupbox)
 		Groupbox:AddLabel("Background color"):AddColorPicker("menu_background_color", { ["Title"] = "Background color", ["Default"] = color3_fromrgb(0, 0, 0) });
 		Groupbox:AddSlider("menu_background_transparency", { ["Text"] = "Transparency", ["Min"] = 0, ["Max"] = 1, ["Default"] = 0.85, ["Rounding"] = 2, ["Compact"] = true });
+		Groupbox:AddSlider("menu_background_blur", { ["Text"] = "Background blur", ["Min"] = 0, ["Max"] = 10, ["Default"] = 5, ["Rounding"] = 1, ["Suffix"] = "x", ["Compact"] = true });
 	
 
 		local ScreenGui = Library:CreateInstance("ScreenGui", {
@@ -113,7 +116,7 @@ do
             ["Parent"] = Hui
 		});
 
-		BackgroundFrame = Library:CreateInstance("Frame", {
+		local BackgroundFrame = Library:CreateInstance("Frame", {
 			["Name"] = "",
             ["Size"] = udim2_new(1, 0, 1, 0),
             ["Position"] = udim2_new(0, 0, 0, 0),
@@ -122,6 +125,14 @@ do
             ["BackgroundTransparency"] = Options["menu_background_transparency"]["Value"],
             ["Parent"] = ScreenGui
 		});
+
+
+		local BackgroundBlur = create_instance("BlurEffect", {
+            ["Name"] = "",
+            ["Size"] = 0,
+            ["Enabled"] = Library:IsVisible(),
+            ["Parent"] = Lighting
+        });
 
 
 		local function OnChangedColor(Color)
@@ -134,31 +145,48 @@ do
 		end;
 
 
+		local function OnChangedBlur(Value)
+            if (Value == 0) then
+                blur_effect["Enabled"] = false;
+                return;
+            end;
+
+            blur_effect["Enabled"] = Library:IsVisible();
+            blur_effect["Size"] = Value * 2;
+        end;
+
+
 		local function OnVisible(Visible)
            	ScreenGui["Enabled"] = Visible;
+			BackgroundBlur["Enabled"] = Visible;
         end;
 
 
 		Options["menu_background_color"]:OnChanged(OnChangedColor);
 		Options["menu_background_transparency"]:OnChanged(OnChangedTransparency);
+		Options["menu_background_blur"]:OnChanged(OnChangedBlur);
 		Library:OnEvent("VisibilityChanged"):Connect(OnVisible);
 	end;
 	
 
 
-	function MenuManager:SetLibrary(Lib)
+	-- // ( Set Library )
+	function SettingsManager:SetLibrary(Lib)
 		self["Library"] = Lib;
 	end;
 
 
-	function MenuManager:SetFolder(Folder)
+	-- // ( Set Folder )
+	function SettingsManager:SetFolder(Folder)
 		self["Folder"] = Folder;
 	end;
 
 
-	function MenuManager:ApplyToTab(Tab)
+
+	-- // ( Apply to Tab )
+	function SettingsManager:ApplyToTab(Tab)
 		if not (self["Library"]) then
-			warn("MenuManager.Library needs to be set first.");
+			warn("SettingsManager.Library needs to be set first.");
 			return;
 		end;
 
@@ -169,20 +197,19 @@ do
 		local Background = Tab:AddRightGroupbox("Background");
 		local ThemeManager = getgenv()["ThemeManager"];
 		local SaveManager = getgenv()["SaveManager"];
-
 		if not (SaveManager or ThemeManager) then
 			warn("Must have SaveManager and ThemeManager.");
 			return;
 		end;
 
 		if (self["Folder"] == nil) then
-			warn("MenuManager.Folder needs to be set first.");
+			warn("SettingsManager.Folder needs to be set first.");
 			return;
 		end;
 
-		self:CreateMenuManager(Menu);
-		self:CreateNotificationManager(Notifications);
-		self:CreateBackgroundManager(Background);
+		self:ApplyMenu(Menu);
+		self:ApplyNotification(Notifications);
+		self:ApplyBackground(Background);
 
 		ThemeManager:SetLibrary(self["Library"]);
 		SaveManager:SetLibrary(self["Library"]);
@@ -196,5 +223,5 @@ do
 end;
 
 
-getgenv()["MenuManager"] = MenuManager;
-return MenuManager;
+getgenv()["SettingsManager"] = SettingsManager;
+return SettingsManager;
