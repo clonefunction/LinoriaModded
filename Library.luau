@@ -1267,7 +1267,7 @@ do
 			Info.Mode = 'Toggle'
 		end
 
-		local PickOuter = Library:Create('Frame', {
+		local PickOuter = Library:CreateInstance('Frame', {
 			BackgroundColor3 = Color3.new(0, 0, 0);
 			BorderColor3 = Color3.new(0, 0, 0);
 			Size = UDim2.new(0, 28, 0, 15);
@@ -1275,7 +1275,7 @@ do
 			Parent = ToggleLabel;
 		});
 
-		local PickInner = Library:Create('Frame', {
+		local PickInner = Library:CreateInstance('Frame', {
 			BackgroundColor3 = Library.BackgroundColor;
 			BorderColor3 = Library.OutlineColor;
 			BorderMode = Enum.BorderMode.Inset;
@@ -1298,7 +1298,7 @@ do
 			Parent = PickInner;
 		});
 
-		local ModeSelectOuter = Library:Create('Frame', {
+		local ModeSelectOuter = Library:CreateInstance('Frame', {
 			BorderColor3 = Color3.new(0, 0, 0);
 			Position = UDim2.fromOffset(ToggleLabel.AbsolutePosition.X + ToggleLabel.AbsoluteSize.X + 4, ToggleLabel.AbsolutePosition.Y + 1);
 			Size = UDim2.new(0, 60, 0, 45 + 2);
@@ -1311,7 +1311,7 @@ do
 			ModeSelectOuter.Position = UDim2.fromOffset(ToggleLabel.AbsolutePosition.X + ToggleLabel.AbsoluteSize.X + 4, ToggleLabel.AbsolutePosition.Y + 1);
 		end);
 
-		local ModeSelectInner = Library:Create('Frame', {
+		local ModeSelectInner = Library:CreateInstance('Frame', {
 			BackgroundColor3 = Library.BackgroundColor;
 			BorderColor3 = Library.OutlineColor;
 			BorderMode = Enum.BorderMode.Inset;
@@ -1325,7 +1325,7 @@ do
 			BorderColor3 = 'OutlineColor';
 		});
 
-		Library:Create('UIListLayout', {
+		Library:CreateInstance('UIListLayout', {
 			FillDirection = Enum.FillDirection.Vertical;
 			SortOrder = Enum.SortOrder.LayoutOrder;
 			Parent = ModeSelectInner;
