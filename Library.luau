@@ -3215,6 +3215,11 @@ function Library:SetWatermark(Text)
 end;
 
 
+function Library:SetNotificationPosition(X, Y)
+	Library["NotificationArea"]["Position"] = UDim2["new"](X, 0, Y, 0)
+end;
+
+
 
 
 -- // ( Notify settings )
