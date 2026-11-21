@@ -346,7 +346,6 @@ end;
 
 
 
-
 local function GetPlayersString()
 	local PlayerList = Players:GetPlayers();
 
@@ -610,6 +609,145 @@ function Library:UpdateColorsUsingRegistry()
 		end;
 	end;
 end;
+
+
+function Library:AddContextMenu(DisplayFrame, hitbox)
+	local ContextMenu = { Visible = false; }
+	ContextMenu.Options = {}
+	ContextMenu.Container = Library:CreateInstance('Frame', {
+		BorderColor3 = Color3.new(),
+		ZIndex = 14,
+
+		Visible = false,
+		Parent = ScreenGui
+	})
+
+	ContextMenu.Inner = Library:CreateInstance('Frame', {
+		BackgroundColor3 = Library.BackgroundColor;
+		BorderColor3 = Library.OutlineColor;
+		BorderMode = Enum.BorderMode.Inset;
+		Size = UDim2.fromScale(1, 1);
+		ZIndex = 15;
+		Parent = ContextMenu.Container;
+	});
+
+	Library:CreateInstance('UIListLayout', {
+		Name = 'Layout',
+		HorizontalAlignment = Enum.HorizontalAlignment.Left;
+		FillDirection = Enum.FillDirection.Vertical;
+		SortOrder = Enum.SortOrder.LayoutOrder;
+		Parent = ContextMenu.Inner;
+	});
+
+	Library:CreateInstance('UIPadding', {
+		Name = 'Padding',
+		PaddingLeft = UDim.new(0, 0),
+		Parent = ContextMenu.Inner,
+	});
+
+	local function updateMenuPosition()
+		ContextMenu.Container.Position = UDim2.fromOffset(
+			(DisplayFrame.AbsolutePosition.X + DisplayFrame.AbsoluteSize.X) + 4,
+			DisplayFrame.AbsolutePosition.Y + 1
+		)
+	end
+
+	local function updateMenuSize()
+		local menuWidth = 60
+		for i, label in next, ContextMenu.Inner:GetChildren() do
+			if label:IsA('TextLabel') then
+				menuWidth = math.max(menuWidth, label.TextBounds.X)
+			end
+		end
+
+		ContextMenu.Container.Size = UDim2.fromOffset(
+			menuWidth + 8,
+			ContextMenu.Inner.Layout.AbsoluteContentSize.Y + 4
+		)
+	end
+
+	local _visible = false;
+	(hitbox or DisplayFrame).InputBegan:Connect(function(Input)
+		if Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame() then
+			return ContextMenu:Hide();
+		elseif Input.UserInputType == Enum.UserInputType.MouseButton2 and not Library:MouseIsOverOpenedFrame() then
+			return ContextMenu:Show();
+		end
+	end);
+
+	Library:BindToInput(Enum.UserInputType.MouseButton1, function()
+		if _visible and not Library:MouseIsOverFrame(ContextMenu.Container) then
+			ContextMenu:Hide()
+		end;
+	end);
+	Library:BindToInput(Enum.UserInputType.MouseButton2, function()
+		if _visible and not Library:MouseIsOverFrame(ContextMenu.Container) and not Library:MouseIsOverFrame(DisplayFrame) then
+			ContextMenu:Hide()
+		end;
+	end);
+
+	task.spawn(updateMenuPosition)
+	task.spawn(updateMenuSize)
+
+	Library:AddToRegistry(ContextMenu.Inner, {
+		BackgroundColor3 = 'BackgroundColor';
+		BorderColor3 = 'OutlineColor';
+	});
+
+	function ContextMenu:Show()
+		updateMenuPosition();
+		updateMenuSize();
+		_visible = true;
+
+		for Frame, Val in next, Library.OpenedFrames do
+			if Frame.Name == 'Color' then
+				Frame.Visible = false;
+				Library.OpenedFrames[Frame] = nil;
+			end;
+		end;
+
+		self.Container.Visible = true
+		Library.OpenedFrames[ContextMenu.Container] = true;
+	end
+
+	function ContextMenu:Hide()
+		_visible = false;
+		self.Container.Visible = false
+		task.wait();
+		Library.OpenedFrames[ContextMenu.Container] = nil;
+	end
+
+	function ContextMenu:AddOption(Str, Callback)
+		if type(Callback) ~= 'function' then
+			Callback = function() end
+		end
+
+		local Button = Library:CreateLabel({
+			Active = false;
+			Size = UDim2.new(1, 0, 0, 15);
+			TextSize = 13;
+			Text = Str;
+			ZIndex = 16;
+			Parent = self.Inner;
+			TextXAlignment = Enum.TextXAlignment.Center,
+		});
+
+		Library:OnHighlight(Button, Button, 
+			{ TextColor3 = 'AccentColor' },
+			{ TextColor3 = 'FontColor' }
+		);
+
+		Button.InputBegan:Connect(function(Input)
+			if Input.UserInputType ~= Enum.UserInputType.MouseButton1 then
+				return
+			end
+			Callback()
+		end)
+		return Button;
+	end
+	return ContextMenu;
+end;
+
 
 
 Library:CreateConnection(ScreenGui["DescendantRemoving"], function(Instance)
