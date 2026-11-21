@@ -1374,7 +1374,7 @@ do
 
 
 
-	-- // ( Add KeyPicker )
+	-- // ( KeyPicker )
 	function Funcs:AddKeyPicker(Idx, Info)
 		local ParentObj = self;
 		local ToggleLabel = self.TextLabel;
@@ -1396,7 +1396,7 @@ do
 			NoUI = Info.NoUI;--Info.NoUI;
 			SyncToggleState = Info.SyncToggleState or false;
 			Parent = ParentObj;
-			Connections = { };
+			Connections = {};
 			Idx = Idx;
 		};
 
@@ -1494,8 +1494,6 @@ do
 					end;
 				end;
 				Library:AttemptSave();
-				--Library.RegistryMap[Label].Properties.TextColor3 = 'AccentColor';
-				--ModeSelectOuter.Visible = false;
 			end);
 			button:GetPropertyChangedSignal("TextColor3"):Connect(function()
 				if (mode == KeyPicker.Mode) then
@@ -2340,7 +2338,7 @@ do
 			local InputType = Input["UserInputType"];
 			if (InputType == InputMouse1 and not Library:MouseIsOverOpenedFrame()) or (InputType == InputTouch) then
                 for _, Addon in next, Toggle["Addons"] do
-                    if (Library:MouseIsOverFrame(Addon["DisplayFrame"])) then
+                    if (Addon["DisplayFrame"] and Library:MouseIsOverFrame(Addon["DisplayFrame"])) then
 						return;
 					end;
                 end;
