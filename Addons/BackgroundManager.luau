@@ -60,14 +60,13 @@ do
 
 
 
-
 	function BackgroundManager:CreateBackgroundManager(Groupbox)
 		if not (self["Library"]) then
 			warn("BackgroundManager.Library needs to be set first.");
 			return;
 		end;
 
-		GroupBox:AddLabel("Background color"):AddColorPicker("menu_background_color", { ["Title"] = "Background color", ["Default"] = color3_fromrgb(0, 0, 0) });
+		Groupbox:AddLabel("Background color"):AddColorPicker("menu_background_color", { ["Title"] = "Background color", ["Default"] = color3_fromrgb(0, 0, 0) });
 		Groupbox:AddSlider("menu_background_transparency", { ["Text"] = "Transparency", ["Min"] = 0, ["Max"] = 1, ["Default"] = 0.85, ["Rounding"] = 2, ["Compact"] = true });
 		OnBackgroundManagerCreated();
 	end;
@@ -76,9 +75,6 @@ do
 	function BackgroundManager:SetLibrary(Lib)
 		self["Library"] = Lib;
 	end;
-
-
-
 end;
 
 
