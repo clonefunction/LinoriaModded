@@ -151,6 +151,11 @@ do
 	end;
 
 
+	function MenuManager:SetFolder(Folder)
+		self["Folder"] = Folder;
+	end;
+
+
 	function MenuManager:ApplyToTab(Tab)
 		if not (self["Library"]) then
 			warn("MenuManager.Library needs to be set first.");
