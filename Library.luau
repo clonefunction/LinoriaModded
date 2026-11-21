@@ -2950,8 +2950,9 @@ do
 					Library.RegistryMap[ButtonLabel].Properties.TextColor3 = Selected and "AccentColor" or "FontColor";
 				end;
 
-				Library:CreateConnection(ButtonLabel.InputBegan, function(Input)
-					if Input.UserInputType == InputMouse1 then
+				Library:CreateConnection(ButtonLabel["InputBegan"], function(Input)
+					local InputType = Input["UserInputType"];
+					if (InputType == InputMouse1) or (InputType == InputTouch) then
 						local Try = not Selected;
 
 						if Dropdown:GetActiveValues() == 1 and (not Try) and (not Info.AllowNull) then
