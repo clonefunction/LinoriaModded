@@ -150,12 +150,12 @@ do
 
 		local function OnChangedBlur(Value)
             if (Value == 0) then
-                blur_effect["Enabled"] = false;
+                BackgroundBlur["Enabled"] = false;
                 return;
             end;
 
-            blur_effect["Enabled"] = Library:IsVisible();
-            blur_effect["Size"] = Value * 2;
+            BackgroundBlur["Enabled"] = Library:IsVisible();
+            BackgroundBlur["Size"] = Value * 2;
         end;
 
 
