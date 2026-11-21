@@ -3231,9 +3231,18 @@ end;
 
 
 
--- // ( Create Event )
+-- // ( Events )
 function Library:CreateEvent(Name)
 	self["Events"][Name] = Library:CreateInstance("BindableEvent");
+end;
+
+
+function Library:FireEvent(Name, ...)
+	self["Events"][Name]:Fire(...);
+end;
+
+function Library:OnEvent(Name)
+	return self["Events"][Name]["Event"];
 end;
 
 
