@@ -62,6 +62,7 @@ local Library = {
 	["OpenedFrames"] = {},
 	["DependencyBoxes"] = {},
 	["Connections"] = {},
+	["Events"] = {},
 
 	["MainColor"] = color3_fromrgb(24, 24, 24),
 	["AccentColor"] = color3_fromrgb(200, 200, 200),
@@ -3226,6 +3227,13 @@ end;
 -- // ( Is Visible )
 function Library:IsVisible()
 	return Library["UIVisible"];
+end;
+
+
+
+-- // ( Create Event )
+function Library:CreateEvent(Name)
+	self["Events"][Name] = Library:CreateInstance("BindableEvent");
 end;
 
 
