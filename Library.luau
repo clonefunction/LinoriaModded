@@ -4057,7 +4057,7 @@ function Library:CreateWindow(...)
 		Fading = true;
 		Toggled = (not Toggled);
 		Library["UIVisible"] = Toggled;
-		Library:FireEvent("VisibilityChanged", Library["UiVisible"]);
+		Library:FireEvent("VisibilityChanged", Library["UIVisible"]);
 		ModalElement["Modal"] = Toggled;
 
 		if (Toggled) then
