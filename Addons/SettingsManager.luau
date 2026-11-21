@@ -127,7 +127,7 @@ do
 		});
 
 
-		local BackgroundBlur = create_instance("BlurEffect", {
+		local BackgroundBlur = Library:CreateInstance("BlurEffect", {
             ["Name"] = "",
             ["Size"] = 0,
             ["Enabled"] = Library:IsVisible(),
