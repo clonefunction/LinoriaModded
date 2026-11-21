@@ -75,6 +75,7 @@ local Library = {
 	["Mobile"] = (InputService["TouchEnabled"] and not InputService["MouseEnabled"]),
 	["CanDrag"] = nil,
 	["Dragging"] = nil,
+	["UIVisible"] = nil,
 	["NotificationStyle"] = {
 		["Transparency"] = 0,
 		["OverrideColor"] = nil,
@@ -611,7 +612,7 @@ end;
 
 
 Library:CreateConnection(ScreenGui["DescendantRemoving"], function(Instance)
-	if (Library["RegistryMap"][Instance]) then
+	if (LLibrary["UIVisible"] and ibrary["RegistryMap"][Instance]) then
 		Library:RemoveFromRegistry(Instance);
 	end;
 end);
@@ -3215,9 +3216,20 @@ function Library:SetWatermark(Text)
 end;
 
 
+
+-- // ( Set Notification Position )
 function Library:SetNotificationPosition(X, Y)
 	Library["NotificationArea"]["Position"] = UDim2["new"](X, 0, Y, 0)
 end;
+
+
+-- // ( Is Visible )
+function Library:IsVisible()
+	return Library["UIVisible"];
+end;
+
+
+Library:CreateEvent("VisibilityChanged");
 
 
 
@@ -3400,6 +3412,7 @@ function Library:CreateWindow(...)
 		Config.AutoShow = Arguments[2] or false;
 	end
 
+	Library["UIVisible"] = Config["AutoShow"];
 	if type(Config.Title) ~= "string" then Config.Title = "No title" end
 	if type(Config.TabPadding) ~= "number" then Config.TabPadding = 0 end
 	if type(Config.MenuFadeTime) ~= "number" then Config.MenuFadeTime = 0.2 end
@@ -4026,6 +4039,8 @@ function Library:CreateWindow(...)
 		local FadeTime = Config["MenuFadeTime"];
 		Fading = true;
 		Toggled = (not Toggled);
+		Library["UIVisible"] = Toggled;
+		Library:FireEvent("VisibilityChanged", Library["UiVisible"]);
 		ModalElement["Modal"] = Toggled;
 
 		if (Toggled) then
