@@ -1523,7 +1523,7 @@ do
 
 		function KeyPicker:Update()
 			if not KeyPicker.NoUI then
-				local mode = Library.KeypickerListMode;
+				local mode = Library["KeypickerListStyle"]["Mode"];
 				local State = KeyPicker:GetState();
 
 				if (mode == "Active" and KeyPicker.Parent.Type == "Toggle" and (not State or not KeyPicker.Parent.Value)) then
@@ -1551,7 +1551,7 @@ do
 
 			Library.KeybindFrame.Size = UDim2.new(0, math.max(XSize + 10, 210), 0, YSize + 23)
 
-			Library.KeybindFrame.Visible = Library.KeypickerListVisible and (YSize ~= 0);
+			Library.KeybindFrame.Visible = Library["KeypickerListStyle"]["Visible"] and (YSize ~= 0);
 		end;
 
 		function KeyPicker:OverrideState(v)
