@@ -107,8 +107,8 @@ do
 	-- // ( Apply Background )
 	function SettingsManager:ApplyBackground(Groupbox)
 		Groupbox:AddLabel("Background color"):AddColorPicker("menu_background_color", { ["Title"] = "Background color", ["Default"] = color3_fromrgb(0, 0, 0) });
-		Groupbox:AddSlider("menu_background_transparency", { ["Text"] = "Transparency", ["Min"] = 0, ["Max"] = 1, ["Default"] = 0.85, ["Rounding"] = 2, ["Compact"] = true });
-		Groupbox:AddSlider("menu_background_blur", { ["Text"] = "Background blur", ["Min"] = 0, ["Max"] = 10, ["Default"] = 5, ["Rounding"] = 1, ["Suffix"] = "x", ["Compact"] = true });
+		Groupbox:AddSlider("menu_background_transparency", { ["Text"] = "Transparency", ["Min"] = 0, ["Max"] = 1, ["Default"] = 0.75, ["Rounding"] = 2, ["Compact"] = true });
+		Groupbox:AddSlider("menu_background_blur", { ["Text"] = "Background blur", ["Min"] = 0, ["Max"] = 10, ["Default"] = 0, ["Rounding"] = 1, ["Suffix"] = "x", ["Compact"] = true });
 	
 
 		local ScreenGui = Library:CreateInstance("ScreenGui", {
