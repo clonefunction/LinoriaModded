@@ -154,7 +154,6 @@ function Library:MouseIsOverFrame(Frame, Input)
 end;
 
 
-
 function Library:MouseIsOverOpenedFrame(Input)
     for Frame in next, Library["OpenedFrames"] do
         if (Library:MouseIsOverFrame(Frame, Input)) then
@@ -509,16 +508,6 @@ end;
 
 
 
-function Library:IsMouseOverFrame(Frame)
-	local AbsPos, AbsSize = Frame.AbsolutePosition, Frame.AbsoluteSize;
-
-	if Mouse.X >= AbsPos.X and Mouse.X <= AbsPos.X + AbsSize.X
-		and Mouse.Y >= AbsPos.Y and Mouse.Y <= AbsPos.Y + AbsSize.Y then
-
-		return true;
-	end;
-end;
-
 function Library:UpdateDependencyBoxes()
 	for _, Depbox in next, Library.DependencyBoxes do
 		Depbox:Update();
@@ -708,7 +697,7 @@ function Library:AddContextMenu(DisplayFrame, hitbox)
 	--DisplayFrame:GetPropertyChangedSignal('AbsolutePosition'):Connect(updateMenuPosition)
 	--ContextMenu.Inner.Layout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(updateMenuSize);
 
-	Library:CreateConnection((hitbox or DisplayFrame)["InputBegan"], function(Input)
+	(hitbox or DisplayFrame).InputBegan:Connect(function(Input)
 		if Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame() then
 			return ContextMenu:Hide();
 		elseif Input.UserInputType == Enum.UserInputType.MouseButton2 and not Library:MouseIsOverOpenedFrame() then
@@ -717,12 +706,12 @@ function Library:AddContextMenu(DisplayFrame, hitbox)
 	end);
 
 	Library:BindToInput(Enum.UserInputType.MouseButton1, function()
-		if _visible and not Library:IsMouseOverFrame(ContextMenu.Container) then
+		if _visible and not Library:MouseIsOverFrame(ContextMenu.Container) then
 			ContextMenu:Hide()
 		end;
 	end);
 	Library:BindToInput(Enum.UserInputType.MouseButton2, function()
-		if _visible and not Library:IsMouseOverFrame(ContextMenu.Container) and not Library:IsMouseOverFrame(DisplayFrame) then
+		if _visible and not Library:MouseIsOverFrame(ContextMenu.Container) and not Library:MouseIsOverFrame(DisplayFrame) then
 			ContextMenu:Hide()
 		end;
 	end);
@@ -1122,11 +1111,6 @@ do
 			pcall(setclipboard, table.concat({ math.floor(ColorPicker.Value.R * 255), math.floor(ColorPicker.Value.G * 255), math.floor(ColorPicker.Value.B * 255) }, ', '))
 			Library:Notify('Copied RGB values to clipboard!', 2)
 		end)]]
-		ContextMenu:AddOption('Copy Flag', function()
-			pcall(setclipboard, ColorPicker.Idx)
-			task.wait(); Library:Notify('Copied flag to clipboard!', 2);
-			ContextMenu:Hide();
-		end);
 		Library:AddToRegistry(PickerFrameInner, { BackgroundColor3 = 'BackgroundColor'; BorderColor3 = 'OutlineColor'; });
 		Library:AddToRegistry(Highlight, { BackgroundColor3 = 'AccentColor'; });
 		Library:AddToRegistry(SatVibMapInner, { BackgroundColor3 = 'BackgroundColor'; BorderColor3 = 'OutlineColor'; });
@@ -1544,12 +1528,6 @@ do
 			end);
 			buttons[mode] = button;
 		end;
-
-		contextmenu:AddOption('Copy Flag', function()
-			pcall(setclipboard, KeyPicker.Idx)
-			task.wait(); Library:Notify('Copied flag to clipboard!', 2);
-			contextmenu:Hide();
-		end)
 
 		for mode, button in buttons do
 			button.TextColor3 = mode == KeyPicker.Mode and Library.AccentColor or Library.FontColor;
@@ -2352,11 +2330,6 @@ do
 		Library:CreateConnection(Box["Focused"], Update);
 
 		local contextmenu = Library:AddContextMenu(TextBoxOuter);
-		contextmenu:AddOption('Copy Flag', function()
-			pcall(setclipboard, Textbox.Idx);
-			task.wait(); Library:Notify('Copied flag to clipboard!', 2);
-			contextmenu:Hide();
-		end);
 
 		Library:AddToRegistry(Box, {
 			TextColor3 = 'FontColor';
@@ -2516,11 +2489,6 @@ do
 
 
 		local contextmenu = Library:AddContextMenu(ToggleOuter, ToggleRegion);
-		contextmenu:AddOption('Copy Flag', function()
-			pcall(setclipboard, Toggle.Idx);
-			task.wait(); Library:Notify('Copied flag to clipboard!', 2);
-			contextmenu:Hide();
-		end);
 
 		if Toggle.Risky then
 			Library:RemoveFromRegistry(ToggleLabel)
@@ -2817,11 +2785,6 @@ do
 
 
 		local contextmenu = Library:AddContextMenu(SliderInner);
-		contextmenu:AddOption('Copy Flag', function()
-			pcall(setclipboard, Slider.Idx);
-			task.wait(); Library:Notify('Copied flag to clipboard!', 2);
-			contextmenu:Hide();
-		end);
 
 		Slider:Display();
 
@@ -3297,11 +3260,6 @@ do
 		end);
 
 		local contextmenu = Library:AddContextMenu(DropdownOuter);
-		contextmenu:AddOption('Copy Flag', function()
-			pcall(setclipboard, Dropdown.Idx);
-			task.wait(); Library:Notify('Copied flag to clipboard!', 2);
-			contextmenu:Hide();
-		end);
 
 		Dropdown:BuildDropdownList();
 		Dropdown:Display();
