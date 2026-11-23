@@ -94,14 +94,21 @@ getgenv()["Options"] = Options;
 -- // ( Create Instance )
 function Library:CreateInstance(Class, Properties)
 	local Instance = Class;
-	if (typeof(Class) == "string") then
-		Instance = instance_new(Class);
-	end;
-
-	if (typeof(Properties) == "table") then
-		for Property, Value in next, Properties do
-			Instance[Property] = Value;
+	local Ok, Err = pcall(function()
+		if (typeof(Class) == "string") then
+			Instance = instance_new(Class);
 		end;
+
+		if (typeof(Properties) == "table") then
+			for Property, Value in next, Properties do
+				Instance[Property] = Value;
+			end;
+		end;
+	end);
+
+	if not (Ok) then
+		print(debug.info(2, "snl");
+		warn(errr);
 	end;
 
 	return Instance;
@@ -4575,7 +4582,7 @@ function Library:CreateWindow(...)
 		Text = '';
 		Modal = false;
 		Parent = Library:CreateInstance("ScreenGui", {
-			Hui
+			["Parent"] = Hui
 		});
 	});
 
