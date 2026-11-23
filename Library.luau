@@ -1270,22 +1270,18 @@ do
 
 		Library:CreateConnection(DisplayFrame["InputBegan"], function(Input)
             if (Library:MouseIsOverOpenedFrame(Input)) then
-				warn("Mouse is over opened frame");
                 return;
             end;
 
 			local InputType = Input["UserInputType"];
             if (InputType == InputMouse1) or (InputType == InputTouch) then
                 if (PickerFrameOuter["Visible"]) then
-					print("Hiding colorpicker");
                     ColorPicker:Hide();
                 else
-					print("Hiding context menu, showing colorpicker");
                     ContextMenu:Hide();
                     ColorPicker:Show();
                 end;
             elseif (InputType == InputMouse2) then
-				print("Showing context menu");
                 ContextMenu:Show();
                 ColorPicker:Hide();
             end;
