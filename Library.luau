@@ -3441,6 +3441,23 @@ end;
 -- < Create other UI elements >
 do
 
+	Library["NotificationArea"] = Library:CreateInstance("Frame", {
+		["BackgroundTransparency"] = 1,
+		["AnchorPoint"] = vector2_new(0.5, 0),
+		["Position"] = udim2_new(0.5, 0, 0.35, 0),
+		["Size"] = udim2_new(0, 300, 0, 200),
+		["ZIndex"] = 100,
+		["Parent"] = ScreenGui
+	});
+
+	Library:CreateInstance("UIListLayout", {
+		["Padding"] = udim_new(0, 4),
+		["FillDirection"] = Enum["FillDirection"]["Vertical"],
+		["HorizontalAlignment"] = Enum["HorizontalAlignment"]["Center"],
+		["SortOrder"] = Enum["SortOrder"]["LayoutOrder"],
+		["Parent"] = Library["NotificationArea"]
+	});
+
 	local WatermarkOuter = Library:CreateInstance('Frame', {
 		BorderColor3 = Color3.new(0, 0, 0);
 		Position = UDim2.new(0, 100, 0, -25);
