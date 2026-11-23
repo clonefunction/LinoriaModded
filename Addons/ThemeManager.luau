@@ -14,6 +14,7 @@ do
 	ThemeManager["BuiltInThemes"] = {
 		["Default"] = {1, HttpService:JSONDecode('{"FontColor":"ffffff","MainColor":"181818","AccentColor":"c8c8c8","BackgroundColor":"141414","OutlineColor":"1f1f1f"}')},
 		["Blue"] = {2, HttpService:JSONDecode('{"FontColor":"ffffff","MainColor":"181818","AccentColor":"4777b6","BackgroundColor":"141414","OutlineColor":"1f1f1f"}')},
+		["Sakura"] = {2, HttpService:JSONDecode('{"FontColor":"ffffff","MainColor":"181818","AccentColor":"f4c2d0","BackgroundColor":"141414","OutlineColor":"1f1f1f"}')},
 		["Primordial"] = {3, HttpService:JSONDecode('{"FontColor":"ffffff","MainColor":"191919","AccentColor":"d7a5af","BackgroundColor":"1e1e1e","OutlineColor":"282828"}')},
 		["Neverlose"] = {4, HttpService:JSONDecode('{"FontColor":"ffffff","MainColor":"0a0f14","AccentColor":"00a0f0","BackgroundColor":"0a0f14","OutlineColor":"191919"}')},
 	};
