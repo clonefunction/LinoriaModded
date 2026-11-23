@@ -94,21 +94,14 @@ getgenv()["Options"] = Options;
 -- // ( Create Instance )
 function Library:CreateInstance(Class, Properties)
 	local Instance = Class;
-	local Ok, Err = pcall(function()
-		if (typeof(Class) == "string") then
-			Instance = instance_new(Class);
-		end;
+	if (typeof(Class) == "string") then
+		Instance = instance_new(Class);
+	end;
 
-		if (typeof(Properties) == "table") then
-			for Property, Value in next, Properties do
-				Instance[Property] = Value;
-			end;
+	if (typeof(Properties) == "table") then
+		for Property, Value in next, Properties do
+			Instance[Property] = Value;
 		end;
-	end);
-
-	if not (Ok) then
-		print(debug.info(2, "snl"));
-		warn(Err);
 	end;
 
 	return Instance;
@@ -1062,7 +1055,7 @@ do
 		local DisplayLabel = Library:CreateLabel({
 			Size = UDim2.new(1, 0, 0, 14);
 			Position = UDim2.fromOffset(5, 5);
-			TextXAlignment = Enum.TextXAlignment.Left;
+			TextXAlignment = Enum.TextXAlignment.Center;
 			TextSize = 14;
 			Text = ColorPicker.Title,--Info.Default;
 			TextWrapped = false;
@@ -3447,28 +3440,6 @@ end;
 
 -- < Create other UI elements >
 do
-	Library.NotificationAreaHolder = Library:CreateInstance('Frame', {
-		BackgroundTransparency = 1;
-		Position = UDim2.new(0, 0, 0, 39);
-		Size = UDim2.new(0, 2560, 0, 200);
-		ZIndex = 100;
-		Parent = ScreenGui;
-	});
-
-	Library.NotificationArea = Library:CreateInstance('Frame', {
-		BackgroundTransparency = 1;
-		Position = UDim2.new(0, 0, 0, 1);
-		Size = UDim2.new(1, 0, 1, 0);
-		ZIndex = 100;
-		Parent = Library.NotificationAreaHolder;
-	});
-
-	Library:CreateInstance('UIListLayout', {
-		Padding = UDim.new(0, 4);
-		FillDirection = Enum.FillDirection.Vertical;
-		SortOrder = Enum.SortOrder.LayoutOrder;
-		Parent = Library.NotificationArea;
-	});
 
 	local WatermarkOuter = Library:CreateInstance('Frame', {
 		BorderColor3 = Color3.new(0, 0, 0);
@@ -3577,8 +3548,7 @@ do
 	local KeybindLabel = Library:CreateLabel({
 		Size = UDim2.new(1, 0, 0, 20);
 		Position = UDim2.fromOffset(5, 2),
-		TextXAlignment = Enum.TextXAlignment.Left,
-
+		TextXAlignment = Enum.TextXAlignment.Center,
 		Text = 'Keybinds';
 		ZIndex = 104;
 		Parent = KeybindInner;
@@ -4176,7 +4146,7 @@ function Library:CreateWindow(...)
 			Parent = TabFrame;
 		});
 
-		local RightSide = Library:CreateInstance('ScrollingFrame', {
+		local RightSide = Library:CreateInstance("ScrollingFrame", {
 			BackgroundTransparency = 1;
 			BorderSizePixel = 0;
 			Position = UDim2.new(0.5, 4 + 1, 0, 8 - 1);
@@ -4513,8 +4483,8 @@ function Library:CreateWindow(...)
 				Library:CreateConnection(Button["InputBegan"], function(Input)
 					local InputType = Input["UserInputType"];
 					if (InputType == InputMouse1 and not Library:MouseIsOverOpenedFrame()) or (InputType == InputTouch) then
-						Tab:Show();
-						Tab:Resize();
+						TabInstance:Show();
+						TabInstance:Resize();
 					end;
 				end);
 
