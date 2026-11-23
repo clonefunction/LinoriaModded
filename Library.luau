@@ -1269,23 +1269,27 @@ do
 
 
 		Library:CreateConnection(DisplayFrame["InputBegan"], function(Input)
-			if (Library:MouseIsOverOpenedFrame(Input)) then
+            if (Library:MouseIsOverOpenedFrame(Input)) then
+				warn("Mouse is over opened frame");
                 return;
             end;
 
 			local InputType = Input["UserInputType"];
-			if (InputType == InputMouse1) or (InputType == InputTouch) then
-				if (PickerFrameOuter["Visible"]) then
-					ColorPicker:Hide();
-				else
-					ContextMenu:Hide();
-					ColorPicker:Show();
-				end;
-			elseif (InputType == InputMouse2) then
-				ContextMenu:Show();
-				ColorPicker:Hide();
-			end;
-		end);
+            if (InputType == InputMouse1) or (InputType == InputTouch) then
+                if (PickerFrameOuter["Visible"]) then
+					print("Hiding colorpicker");
+                    ColorPicker:Hide();
+                else
+					print("Hiding context menu, showing colorpicker");
+                    ContextMenu:Hide();
+                    ColorPicker:Show();
+                end;
+            elseif (InputType == InputMouse2) then
+				print("Showing context menu");
+                ContextMenu:Show();
+                ColorPicker:Hide();
+            end;
+        end);
 
 
 		if (TransparencyBoxInner) then
@@ -1308,28 +1312,6 @@ do
 				end;
 			end)
 		end;
-
-
-		Library:CreateConnection(InputService["InputBegan"], function(Input)
-			local InputType = Input["UserInputType"];
-			if (InputType == InputMouse1) or (InputType == InputTouch) then
-				local AbsolutePosition = PickerFrameOuter["AbsolutePosition"];
-				local AbsoluteSize = PickerFrameOuter["AbsoluteSize"];
-                if (Mouse["X"] < AbsolutePosition["X"] or Mouse["X"] > AbsolutePosition["X"] + AbsoluteSize["X"]) or (Mouse["Y"] < (AbsolutePosition["Y"] - 20 - 1) or Mouse["Y"] > AbsolutePosition["Y"] + AbsoluteSize["Y"]) then
-                    ColorPicker:Hide();
-                end;
-
-                if not (Library:MouseIsOverFrame(ContextMenu["Container"])) then
-                    ContextMenu:Hide();
-                end;
-            end;
-
-            if (InputType == InputMouse2 and ContextMenu["Container"]["Visible"]) then
-                if not (Library:MouseIsOverFrame(ContextMenu.Container) and not Library:MouseIsOverFrame(DisplayFrame)) then
-                    ContextMenu:Hide();
-                end;
-            end;
-		end);
 
 
 		ColorPicker:Display();
