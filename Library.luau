@@ -108,7 +108,7 @@ function Library:CreateInstance(Class, Properties)
 
 	if not (Ok) then
 		print(debug.info(2, "snl"));
-		warn(err);
+		warn(Err);
 	end;
 
 	return Instance;
