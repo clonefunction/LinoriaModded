@@ -333,6 +333,8 @@ do
 
 
 				self["Library"]:Notify(`Deleted config: {Name}`);
+				Options["SaveManager_ConfigList"]:SetValues(self:RefreshConfigList());
+				Options["SaveManager_ConfigList"]:SetValue(nil);
 			end;
 		});
 
