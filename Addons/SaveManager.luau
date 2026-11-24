@@ -325,11 +325,19 @@ do
 		}):AddButton({ ["Text"] = "Delete config", ["DoubleClick"] = true,
 			["Func"] = function()
 				local Name = Options["SaveManager_ConfigList"]["Value"];
-				self:DeleteConfig(Name);
+				local Success, Err = self:DeleteConfig(Name);
+
+				if not (Success) then
+					return self["Library"]:Notify("Failed to delete config: " .. Err);
+				end;
+
+
+				self["Library"]:Notify(`Deleted config: {Name}`);
 			end;
 		});
 
 
+		groupbox:AddDivider();
 		groupbox:AddButton({ ["Text"] = "Refresh list", 
 			["Func"] = function()
 				Options["SaveManager_ConfigList"]:SetValues(self:RefreshConfigList());
