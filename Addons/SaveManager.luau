@@ -250,7 +250,7 @@ do
 			return self["Library"]:Notify('Failed to load autoload config: ' .. Err)
 		end
 		
-		self["Library"]:Notify(string_format("Auto loaded config %q", Name))
+		self["Library"]:Notify(string_format("Auto loaded config %q", Name));
 	end
 
 
@@ -267,6 +267,7 @@ do
 		end;
 
 		delfile(File);
+
 		return true;
 	end;
 
@@ -297,6 +298,7 @@ do
 
 
 				self.Library:Notify(string_format('Created config %q', Name));
+				Options["SaveManager_ConfigName"]:SetValue("");
 				Options["SaveManager_ConfigList"]:SetValues(self:RefreshConfigList());
 				Options["SaveManager_ConfigList"]:SetValue(nil);
 			end;
