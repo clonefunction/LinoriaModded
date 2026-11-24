@@ -267,6 +267,7 @@ do
 		end;
 
 		delfile(File);
+		return true;
 	end;
 
 
