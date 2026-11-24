@@ -254,6 +254,23 @@ do
 	end
 
 
+
+	-- // ( Delete config )
+	function SaveManager:DeleteConfig(Name)
+		if not (Name) then
+			return false, "No config file is selected.";
+		end;
+		
+		local File = self["Folder"] .. "/Settings/" .. Name .. ".json";
+		if not (isfile(File)) then
+			return false, "Invalid file.";
+		end;
+
+		delfile(File);
+	end;
+
+
+
 	-- // ( Build Config Section )
 	function SaveManager:BuildConfigSection(tab)
 		if not (self["Library"]) then
@@ -294,6 +311,7 @@ do
 			end;
 		});
 
+
 		groupbox:AddButton({ ["Text"] = "Overwrite config", ["DoubleClick"] = true, 
 			["Func"] = function()
 				local Name = Options["SaveManager_ConfigList"]["Value"];
@@ -304,7 +322,13 @@ do
 
 				self["Library"]:Notify(string_format("Overwrote config %q", Name));
 			end;
+		}):AddButton({ ["Text"] = "Delete config", ["DoubleClick"] = true,
+			["Func"] = function()
+				local Name = Options["SaveManager_ConfigList"]["Value"];
+				self:DeleteConfig(Name);
+			end;
 		});
+
 
 		groupbox:AddButton({ ["Text"] = "Refresh list", 
 			["Func"] = function()
