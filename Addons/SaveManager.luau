@@ -110,7 +110,7 @@ do
 			return false, "No config file is selected.";
 		end;
 
-		local Path = self["Folder"] .. "/Settings/" .. Name .. ".json";
+		local Path = self["Folder"] .. "/Configs/" .. Name .. ".json";
 		local Data = {
 			Objects = {}
 		};
@@ -152,7 +152,7 @@ do
 			return false, "No config file is selected.";
 		end;
 		
-		local File = self["Folder"] .. "/Settings/" .. Name .. ".json";
+		local File = self["Folder"] .. "/Configs/" .. Name .. ".json";
 		if not (isfile(File)) then
 			return false, "Invalid file.";
 		end;
@@ -190,7 +190,7 @@ do
 		local Paths = {
 			self["Folder"],
 			self["Folder"] .. "/Themes",
-			self["Folder"] .. "/Settings"
+			self["Folder"] .. "/Configs"
 		};
 
 		for Idx = 1, rawlen(Paths) do
@@ -205,7 +205,7 @@ do
 
 	-- // ( Refresh Config List )
 	function SaveManager:RefreshConfigList()
-		local List = listfiles(self.Folder .. "/Settings");
+		local List = listfiles(self.Folder .. "/Configs");
 		local Out = {};
 
 		for Idx = 1, rawlen(List) do
@@ -240,11 +240,11 @@ do
 
 	-- // ( Load Autoload Config )
 	function SaveManager:LoadAutoloadConfig()
-		if not (isfile(self["Folder"] .. "/Settings/autoload.txt")) then
+		if not (isfile(self["Folder"] .. "/Configs/autoload.txt")) then
 			return;
 		end;
 
-		local Name = readfile(self["Folder"] .. "/Settings/autoload.txt")
+		local Name = readfile(self["Folder"] .. "/Configs/autoload.txt")
 		local Success, Err = self:Load(Name)
 		if not (Success) then
 			return self["Library"]:Notify('Failed to load autoload config: ' .. Err)
@@ -261,7 +261,7 @@ do
 			return false, "No config file is selected.";
 		end;
 		
-		local File = self["Folder"] .. "/Settings/" .. Name .. ".json";
+		local File = self["Folder"] .. "/Configs/" .. Name .. ".json";
 		if not (isfile(File)) then
 			return false, "Invalid file.";
 		end;
@@ -357,15 +357,15 @@ do
 					return;
 				end;
 
-				writefile(self["Folder"] .. "/Settings/autoload.txt", Name);
+				writefile(self["Folder"] .. "/Configs/autoload.txt", Name);
 
 				SaveManager["AutoloadLabel"]:SetText("Current autoload config: " .. Name);
 				self["Library"]:Notify(string_format("Set %q to auto load", Name));
 			end;
 		}):AddButton({ ["Text"] = "Remove autoload", ["DoubleClick"] = true, 
 			["Func"] = function()
-				if (isfile(self["Folder"] .. '/Settings/autoload.txt')) then
-					delfile(self["Folder"] .. '/Settings/autoload.txt');
+				if (isfile(self["Folder"] .. '/Configs/autoload.txt')) then
+					delfile(self["Folder"] .. '/Configs/autoload.txt');
 				end;
 
 				SaveManager["AutoloadLabel"]:SetText("Current autoload config: none")
@@ -375,8 +375,8 @@ do
 
 		SaveManager["AutoloadLabel"] = groupbox:AddLabel("Current autoload config: none", true)
 
-		if (isfile(self["Folder"] .. "/Settings/autoload.txt")) then
-			local Name = readfile(self["Folder"] .. "/Settings/autoload.txt");
+		if (isfile(self["Folder"] .. "/Configs/autoload.txt")) then
+			local Name = readfile(self["Folder"] .. "/Configs/autoload.txt");
 			SaveManager["AutoloadLabel"]:SetText('Current autoload config: ' .. Name);
 		end;
 
