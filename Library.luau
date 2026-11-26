@@ -1306,7 +1306,7 @@ do
 
 					Library:AttemptSave();
 				end;
-			end)
+			end);
 		end;
 
 
@@ -1319,8 +1319,8 @@ do
             if (InputType == InputMouse1) or (InputType == InputTouch) then
 				local AbsolutePosition = PickerFrameOuter["AbsolutePosition"];
 				local AbsoluteSize = PickerFrameOuter["AbsoluteSize"];
-                if (Mouse["X"] < AbsolutePosition["X"]) or (Mouse["X"] > AbsolutePosition["X"] + AbsoluteSiz["X"])
-                    or (Mouse["Y"] < (AbsolutePosition["Y"] - 20 - 1)) or (Mouse["Y"] > AbsolutePosition["Y"] + AbsoluteSiz["Y"]) then
+                if (Mouse["X"] < AbsolutePosition["X"]) or (Mouse["X"] > AbsolutePosition["X"] + AbsoluteSize["X"])
+                    or (Mouse["Y"] < (AbsolutePosition["Y"] - 20 - 1)) or (Mouse["Y"] > AbsolutePosition["Y"] + AbsoluteSize["Y"]) then
 
                     ColorPicker:Hide();
                 end;
