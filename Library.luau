@@ -1310,6 +1310,35 @@ do
 		end;
 
 
+
+		Library:CreateConnection(InputService["InputBegan"], function(Input)
+            if (Library["Unloaded"]) then
+                return;
+            end;
+
+			local InputType = Input["UserInputType"];
+            if (InputType == InputMouse1) or (InputType == InputTouch) then
+				local AbsolutePosition = PickerFrameOuter["AbsolutePosition"];
+				local AbsoluteSize = PickerFrameOuter["AbsoluteSize"];
+                if (Mouse["X"] < AbsolutePosition["X"]) or (Mouse["X"] > AbsolutePosition["X"] + AbsoluteSiz["X"])
+                    or (Mouse["Y"] < (AbsolutePosition["Y"] - 20 - 1)) or (Mouse["Y"] > AbsolutePosition["Y"] + AbsoluteSiz["Y"]) then
+
+                    ColorPicker:Hide();
+                end;
+
+                if not (Library:MouseIsOverFrame(ContextMenu["Container"])) then
+                    ContextMenu:Hide();
+                end;
+            end;
+
+            if (InputType == InputMouse2 and ContextMenu["Container"]["Visible"]) then
+                if not (Library:MouseIsOverFrame(ContextMenu["Container"]) and not Library:MouseIsOverFrame(DisplayFrame)) then
+                    ContextMenu:Hide();
+                end;
+            end;
+        end);
+
+
 		ColorPicker:Display();
 		ColorPicker.DisplayFrame = DisplayFrame
 
@@ -3962,14 +3991,19 @@ function Library:CreateWindow(...)
 	});
 
 	local VersionLabel = Library:CreateLabel({
-		Position = UDim2.new(0, -8, 0, 0);
-		Size = UDim2.new(1, 0, 0, 25);
-		Text = Config.Version or '';
-		RichText = true;
-		TextXAlignment = Enum.TextXAlignment.Right;
-		ZIndex = 1;
-		Parent = Inner;
+		["Name"] = "",
+		["Position"] = udim2_new(0, -8, 0, 0),
+		["Size"] = udim2_new(1, 0, 0, 25),
+		["Text"] = (Config["Version"]) or (""),
+		["TextXAlignment"] = Enum["TextXAlignment"]["Right"],
+		["ZIndex"] = 1,
+		["Parent"] = Inner
 	});
+
+	Library:AddToRegistry(VersionLabel, {
+		["TextColor3"] = "AccentColor"
+	});
+
 
 	local MainSectionOuter = Library:CreateInstance('Frame', {
 		BackgroundColor3 = Library.BackgroundColor;
@@ -4074,6 +4108,22 @@ function Library:CreateWindow(...)
 
 		Library:AddToRegistry(Blocker, {
 			BackgroundColor3 = 'MainColor';
+		});
+
+
+		local AccentBar = Library:Create("Frame", {
+			["Name"] = "",
+			["BackgroundColor3"] = Library["AccentColor"];
+			["BorderSizePixel"] = 0;
+			["Size"] = udim2_new(1, 0, 0, 2);
+			["Position"] = udim2_new(0, 0, 0, 0);
+			["ZIndex"] = 4;
+			["Visible"] = false;
+			["Parent"] = TabButton;
+		});
+
+		Library:AddToRegistry(AccentBar, {
+			["BackgroundColor3"] = "AccentColor"
 		});
 
 		local TabFrame = Library:CreateInstance('Frame', {
