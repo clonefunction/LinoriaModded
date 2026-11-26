@@ -1310,7 +1310,6 @@ do
 		end;
 
 
-
 		Library:CreateConnection(InputService["InputBegan"], function(Input)
             if (Library["Unloaded"]) then
                 return;
@@ -4111,7 +4110,7 @@ function Library:CreateWindow(...)
 		});
 
 
-		local AccentBar = Library:Create("Frame", {
+		local AccentBar = Library:CreateInstance("Frame", {
 			["Name"] = "",
 			["BackgroundColor3"] = Library["AccentColor"];
 			["BorderSizePixel"] = 0;
